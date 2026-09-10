@@ -234,7 +234,7 @@ flyGradient.Color = ColorSequence.new({
 })
 flyGradient.Rotation = 90
 
--- [ NOCLIP & MORE BUTONU (Düzeltildi) ] --
+-- [ NOCLIP & MORE BUTONU (Anlık Mavi Geri Bildirimli ve Güvenli Çalıştırıcı) ] --
 local MoreBtn = Instance.new("TextButton", MainContainer)
 MoreBtn.Text = "Click for Noclip & More"
 MoreBtn.Size = UDim2.new(1, -5, 0, 26)
@@ -256,8 +256,31 @@ moreGradient.Color = ColorSequence.new({
 moreGradient.Rotation = 90
 
 MoreBtn.MouseButton1Click:Connect(function()
+    -- Anlık mavi geri bildirim
+    MoreBtn.BackgroundColor3 = Color3.fromRGB(0, 180, 255)
+    moreGradient.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 210, 255)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 140, 200))
+    })
+    
+    task.delay(0.2, function()
+        MoreBtn.BackgroundColor3 = Color3.fromRGB(65, 65, 85)
+        moreGradient.Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(100, 100, 130)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(50, 50, 70))
+        })
+    end)
+
     pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/halilibrahimseviml1/LightningHub-/refs/heads/main/LightningHub-"))()
+        local success, result = pcall(function()
+            return game:HttpGet("https://raw.githubusercontent.com/halilibrahimseviml1/LightningHub-/refs/heads/main/LightningHub")
+        end)
+        if success and result then
+            loadstring(result)()
+        else
+            -- Alternatif olarak doğrudan loadstring üzerinden çağır
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/halilibrahimseviml1/LightningHub-/refs/heads/main/LightningHub"))()
+        end
     end)
 end)
 
